@@ -3,14 +3,24 @@
     <button v-on:click="myAnimation = 'slide'">Slide</button>
     <button v-on:click="myAnimation = 'fade'">Fade</button>
     <p>{{ myAnimation }}</p>
-    <button v-on:click="show = !show">切替</button>
+    <button v-on:click="show = !show">切替</button><br>
+
+    <button v-on:click="myComponent = 'ComponentA'">ComponentA</button>
+    <button v-on:click="myComponent = 'ComponentB'">ComponentB</button>
+
+    <transition name="fade" mode="out-in">  
+      <component :is="myComponent"></component>
+    </transition>
+
     <transition name="fade" mode="out-in">
       <p v-if="show" key="bye">さよなら</p>
       <p v-else key="hello">こんにちは</p>
     </transition>
+
     <transition name="fade" enter-active-class="animated bounce">
       <p v-if="show">Hello</p>
     </transition>
+
     <transition v-bind:name="myAnimation" appear>
       <p v-if="show">slide</p>
     </transition>
@@ -18,11 +28,19 @@
 </template>
 
 <script>
+import ComponentA from "./components/ComponentA.vue";
+import ComponentB from "./components/ComponentB.vue";
+
 export default {
+  components: {
+    ComponentA,
+    ComponentB,
+  },
   data: function() {
     return {
       show: true,
-      myAnimation: "slide"
+      myAnimation: "slide",
+      myComponent: "ComponentA"
     };
   }
 };
@@ -33,6 +51,7 @@ export default {
   padding: 200px;
   width: 100%;
   margin: 0 auto;
+  text-align: center;
 }
 .fade-enter {
   opacity: 0;
